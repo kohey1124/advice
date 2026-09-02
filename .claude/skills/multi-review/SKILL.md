@@ -33,13 +33,18 @@ scratchpad/rv-prompt.md に以下を書き出す。
 mkdir -p scratchpad
 gemini --skip-trust -p "$(cat scratchpad/rv-prompt.md)" \
   > scratchpad/rv-gemini.md 2>&1 &
+PID_G=$!
 codex exec --skip-git-repo-check --sandbox read-only \
   "$(cat scratchpad/rv-prompt.md)" \
   < /dev/null > scratchpad/rv-gpt.md 2>&1 &
-wait
+PID_P=$!
+wait $PID_G; RC_G=$?
+wait $PID_P; RC_P=$?
+echo "gemini=$RC_G gpt=$RC_P"
 
-両方のファイルが空でないことを確認してから次へ進む。
-空の場合はエラー内容を報告して停止する。
+両方が 0 の場合のみ Step 3 へ進む。
+片方でも 0 以外なら、該当ファイルの中身をエラーとして報告し停止する。
+両方失敗した場合は認証状態を確認するよう伝える。
 
 ## Step 3: 突き合わせ
 
