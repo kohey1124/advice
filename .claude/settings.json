@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(codex exec:*)"
+      "Bash(codex exec:*)",
+      "Bash(gemini:*)"
     ]
   }
 }
