@@ -31,7 +31,8 @@ scratchpad/rv-prompt.md に以下を書き出す。
 以下を1つのbashコマンドとして実行する。
 
 mkdir -p scratchpad
-gemini --skip-trust -p "$(cat scratchpad/rv-prompt.md)" \
+GEMINI_API_KEY="$GEMINI_API_KEY" \
+  gemini --skip-trust -p "$(cat scratchpad/rv-prompt.md)" \
   > scratchpad/rv-gemini.md 2>&1 &
 PID_G=$!
 codex exec --skip-git-repo-check --sandbox read-only \
